@@ -18,9 +18,11 @@ FLOWTOOLS=NONE
 FAMILY=
 [Files]
 /SPI.vhd=-1
+/testbench_SPI.vhd=-1
 [Files.Data]
 .\src\SPI.vhd=VHDL Source Code
+.\src\testbench_SPI.vhd=VHDL Source Code
 [HierarchyViewer]
-HierarchyInformation=
+HierarchyInformation=spi|SPI_arch|0 test|testbench|0
 ShowHide=ShowTopLevel
 Selected=

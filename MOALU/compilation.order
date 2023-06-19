@@ -1,1 +1,2 @@
 .\src\SPI.vhd
+.\src\testbench_SPI.vhd
