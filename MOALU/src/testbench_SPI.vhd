@@ -1,10 +1,10 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity test is
-end entity;
+entity test_SPI is
+end test_SPI;
 
-architecture testbench of test is
+architecture test_SPI_arch of test is
 
   constant DATA_WIDTH : integer := 4;
 
@@ -68,4 +68,4 @@ begin
   end process;
 
 
-end architecture;
+end test_SPI_arch;
