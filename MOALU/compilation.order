@@ -1,4 +1,4 @@
 .\src\SPI.vhd
+.\src\testbench_SPI.vhd
 .\src\FSM.vhd
 .\src\testbench_FSM.vhd
-.\src\testbench_SPI.vhd
