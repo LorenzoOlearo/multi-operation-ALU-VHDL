@@ -2,3 +2,5 @@
 .\src\testbench_SPI.vhd
 .\src\FSM.vhd
 .\src\testbench_FSM.vhd
+.\src\reg_out.vhd
+.\src\testbench_reg_out.vhd
