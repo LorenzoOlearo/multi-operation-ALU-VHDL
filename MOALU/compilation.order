@@ -1,4 +1,8 @@
 .\src\SPI.vhd
+.\src\twoMulDiv.vhd
+.\src\comparator.vhd
 .\src\FSM.vhd
+.\src\ALU.vhd
 .\src\testbench_FSM.vhd
 .\src\testbench_SPI.vhd
+.\src\testbench_ALU.vhd
