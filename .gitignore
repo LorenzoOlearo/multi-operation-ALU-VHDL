@@ -1,2 +1,6 @@
-!*.vhd
+# Blacklist everything
 *
+# Whitelist all directories
+!*/
+# Whitelist the file you're interested in. 
+!*.vhd
