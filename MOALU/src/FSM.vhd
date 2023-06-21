@@ -4,34 +4,34 @@ use ieee.std_logic_1164.all;
 
 entity FSM is
   port(
-    clk : in std_logic;
-    rst : in std_logic;
-    enable : in std_logic;
-    ready : in std_logic;
-    sel : in std_logic_vector(1 downto 0);
+    clk        : in  std_logic;
+    rst        : in  std_logic;
+    enable     : in  std_logic;
+    ready      : in  std_logic;
+    op         : in  std_logic_vector(1 downto 0);
     alu_enable : out std_logic;
-    alu_sel : out std_logic_vector(1 downto 0)
-  );
+    alu_op     : out std_logic_vector(1 downto 0)
+    );
 end FSM;
 
 architecture FSM_arch of FSM is
   type state_type is (reset, mod1, mod2, mod3, hold1, hold2, hold3, err);
-  signal state : state_type := reset;
+  signal state      : state_type := reset;
   signal next_state : state_type;
-  signal o : std_logic_vector(2 downto 0);
-  signal i : std_logic_vector(2 downto 0);
+  signal o          : std_logic_vector(2 downto 0);
+  signal i          : std_logic_vector(2 downto 0);
 begin
 
-  i <= ready & sel;
+  i          <= ready & op;
   alu_enable <= o(2);
-  alu_sel <= o(1 downto 0);
+  alu_op     <= o(1 downto 0);
 
   -- set state
   process(clk, rst) is
   begin
     if rst = '1' then
       state <= reset;
-    elsif (clk'event and clk='1' and enable='1') then
+    elsif (clk'event and clk = '1' and enable = '1') then
       state <= next_state;
     end if;
   end process;
@@ -43,7 +43,7 @@ begin
 
       when reset =>
         case i is
-          when "100" => 
+          when "100" =>
             next_state <= mod1;
           when "101" =>
             next_state <= mod2;
@@ -54,7 +54,7 @@ begin
           when others =>
             next_state <= reset;
         end case;
-      
+
       when mod1 =>
         case i is
           when "000" =>
@@ -72,7 +72,7 @@ begin
           when others =>
             next_state <= err;
         end case;
-      
+
       when mod2 =>
         case i is
           when "000" =>
@@ -126,7 +126,7 @@ begin
           when others =>
             next_state <= err;
         end case;
-      
+
       when hold2 =>
         case i is
           when "000" =>
@@ -202,4 +202,3 @@ begin
   end process;
 
 end FSM_arch;
-

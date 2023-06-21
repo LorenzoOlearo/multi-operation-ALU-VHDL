@@ -21,7 +21,7 @@ begin
 
   SPI : entity work.SPI
     generic map (
-      DATA_WIDTH => 4
+      DATA_WIDTH => DATA_WIDTH
       )
     port map (
       clk     => clk,
