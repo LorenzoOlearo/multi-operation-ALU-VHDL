@@ -20,8 +20,10 @@ architecture twoDivMul_arch of twoDivMul is
 begin
 
   overflow <= x(x'high) when op = '0' and enable = '1' else
-              x(0)      when op = '1' and enable = '1';
+              x(0)      when op = '1' and enable = '1' else
+              '0';
   y <= shift_left(x, 1)  when op = '0' and enable = '1' else
-       shift_right(x, 1) when op = '1' and enable = '1';
+       shift_right(x, 1) when op = '1' and enable = '1' else
+       (others => '0');
 
 end twoDivMul_arch;
