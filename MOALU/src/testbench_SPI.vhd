@@ -51,8 +51,10 @@ begin
 
   get_ready : process is
   begin
-    wait for 170 ns;
+    wait for 10 ns;
     ready <= '1';
+    wait for 170 ns;
+    ready <= '0';
     wait;
   end process;
 

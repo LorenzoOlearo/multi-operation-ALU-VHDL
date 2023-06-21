@@ -15,7 +15,7 @@ entity SPI is
     clk     : in  std_logic;
     rst     : in  std_logic;
     bit_in  : in  std_logic;
-    ready   : in  std_logic := '0';
+    ready   : in  std_logic;
     bus_out : out std_logic_vector((DATA_WIDTH*2)-1 downto 0) := (others => '0')
     );
 
@@ -38,7 +38,7 @@ begin
   end process;
 
 
-  bus_out <= shift_register when ready = '1';
+  bus_out <= shift_register when ready = '1' else (others => '0');
 
 
 end SPI_arch;
