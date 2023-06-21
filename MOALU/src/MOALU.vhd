@@ -13,8 +13,8 @@ entity MOALU is
     rst    : in  std_logic;
     enable : in  std_logic;
     bit_in : in  std_logic;
-    op     : in  std_logic_vector(1 downto 0);
     ready  : in  std_logic;
+    op     : in  std_logic_vector(1 downto 0);
     y1     : out std_logic_vector((DATA_WIDTH - 1) downto 0);
     y2     : out std_logic_vector((DATA_WIDTH - 1) downto 0);
     result : out std_logic_vector(2 downto 0)
@@ -81,7 +81,6 @@ begin
       result => alu_result
       );
 
-
   reg_out : entity work.reg_out
     generic map (
       DATA_WIDTH => DATA_WIDTH
@@ -89,7 +88,7 @@ begin
     port map (
       clk       => clk,
       rst       => rst,
-      enable    => enable,
+      enable    => alu_enable,
       y1_in     => std_logic_vector(alu_y1),
       y2_in     => std_logic_vector(alu_y2),
       result_in => alu_result,
