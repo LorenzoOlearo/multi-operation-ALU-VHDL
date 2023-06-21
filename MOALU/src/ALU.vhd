@@ -29,7 +29,7 @@ begin
   enable_muldiv <= not op(1) and enable;
   enable_compare <= op(1) and not op(0) and enable;
 
-  muldiv1 : entity work.twoDivMul
+  muldiv1 : entity work.mul_div
     generic map(
       DATA_WIDTH => DATA_WIDTH
       )
@@ -41,7 +41,7 @@ begin
       overflow => overflow1
       );
     
-  muldiv2 : entity work.twoDivMul
+  muldiv2 : entity work.mul_div
     generic map(
       DATA_WIDTH => DATA_WIDTH
       )
