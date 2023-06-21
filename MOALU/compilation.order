@@ -1,6 +1,10 @@
 .\src\SPI.vhd
-.\src\testbench_SPI.vhd
+.\src\twoMulDiv.vhd
+.\src\comparator.vhd
 .\src\FSM.vhd
-.\src\testbench_FSM.vhd
+.\src\ALU.vhd
 .\src\reg_out.vhd
+.\src\testbench_FSM.vhd
 .\src\testbench_reg_out.vhd
+.\src\testbench_SPI.vhd
+.\src\testbench_ALU.vhd
