@@ -1,70 +1,70 @@
-library ieee;
+LIBRARY ieee;
 
-use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
 
-entity ALU is
-  generic(
+ENTITY ALU IS
+  GENERIC(
     DATA_WIDTH : integer := 4
     );
-  port(
-    enable : in std_logic;
-    op : in std_logic_vector(1 downto 0);
-    x1 : in unsigned(DATA_WIDTH-1 downto 0);
-    x2 : in unsigned(DATA_WIDTH-1 downto 0);
-    y1 : out unsigned(DATA_WIDTH-1 downto 0);
-    y2 : out unsigned(DATA_WIDTH-1 downto 0);
-    result : out std_logic_vector(2 downto 0)
+  PORT(
+    enable : IN  std_logic;
+    op     : IN  std_logic_vector(1 DOWNTO 0);
+    x1     : IN  unsigned(DATA_WIDTH-1 DOWNTO 0);
+    x2     : IN  unsigned(DATA_WIDTH-1 DOWNTO 0);
+    y1     : OUT unsigned(DATA_WIDTH-1 DOWNTO 0);
+    y2     : OUT unsigned(DATA_WIDTH-1 DOWNTO 0);
+    result : OUT std_logic_vector(2 DOWNTO 0)
     );
-end ALU;
+END ALU;
 
-architecture ALU_arch of ALU is
-  signal enable_muldiv : std_logic;
-  signal enable_compare : std_logic;
-  signal overflow1 : std_logic;
-  signal overflow2 : std_logic;
-  signal compare_res : std_logic_vector(2 downto 0);
-begin
+ARCHITECTURE ALU_arch OF ALU IS
+  SIGNAL enable_muldiv  : std_logic;
+  SIGNAL enable_compare : std_logic;
+  SIGNAL overflow1      : std_logic;
+  SIGNAL overflow2      : std_logic;
+  SIGNAL compare_res    : std_logic_vector(2 DOWNTO 0);
+BEGIN
 
-  enable_muldiv <= not op(1) and enable;
-  enable_compare <= op(1) and not op(0) and enable;
+  enable_muldiv  <= NOT op(1) AND enable;
+  enable_compare <= op(1) AND NOT op(0) AND enable;
 
-  muldiv1 : entity work.mul_div
-    generic map(
+  muldiv1 : ENTITY work.mul_div
+    GENERIC MAP(
       DATA_WIDTH => DATA_WIDTH
       )
-    port map(
-      enable => enable_muldiv,
-      op => op(0),
-      x => x1,
-      y => y1,
+    PORT MAP(
+      enable   => enable_muldiv,
+      op       => op(0),
+      x        => x1,
+      y        => y1,
       overflow => overflow1
       );
-    
-  muldiv2 : entity work.mul_div
-    generic map(
+
+  muldiv2 : ENTITY work.mul_div
+    GENERIC MAP(
       DATA_WIDTH => DATA_WIDTH
       )
-    port map(
-      enable => enable_muldiv,
-      op => op(0),
-      x => x2,
-      y => y2,
+    PORT MAP(
+      enable   => enable_muldiv,
+      op       => op(0),
+      x        => x2,
+      y        => y2,
       overflow => overflow2
       );
-  
-  compare : entity work.comparator
-    generic map(
+
+  compare : ENTITY work.comparator
+    GENERIC MAP(
       DATA_WIDTH => DATA_WIDTH
       )
-    port map(
-      a => x1,
-      b => x2,
+    PORT MAP(
+      a      => x1,
+      b      => x2,
       result => compare_res
       );
 
-  result(2) <= (enable_compare and compare_res(2)) or (enable_muldiv and overflow1);
-  result(1) <= enable_compare and compare_res(1);
-  result(0) <= (enable_compare and compare_res(0)) or (enable_muldiv and overflow2);
+  result(2) <= (enable_compare AND compare_res(2)) OR (enable_muldiv AND overflow1);
+  result(1) <= enable_compare AND compare_res(1);
+  result(0) <= (enable_compare AND compare_res(0)) OR (enable_muldiv AND overflow2);
 
-end ALU_arch;
+END ALU_arch;

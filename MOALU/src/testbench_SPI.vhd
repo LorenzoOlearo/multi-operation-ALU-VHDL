@@ -1,30 +1,30 @@
-library ieee;
-use ieee.std_logic_1164.all;
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
 
-entity test_SPI is
-end test_SPI;
+ENTITY test_SPI IS
+END test_SPI;
 
-architecture test_SPI_arch of test is
+ARCHITECTURE test_SPI_arch OF test IS
 
-  constant DATA_WIDTH : integer := 4;
+  CONSTANT DATA_WIDTH : integer := 4;
 
-  signal clk     : std_logic                                   := '0';
-  signal rst     : std_logic                                   := '0';
-  signal bit_in  : std_logic                                   := '0';
-  signal bus_out : std_logic_vector((DATA_WIDTH*2)-1 downto 0) := (others => '0');
-  signal flag    : std_logic                                   := '0';
-  signal bus_in  : std_logic_vector((DATA_WIDTH*2)-1 downto 0) := "00001111";
-  signal ready   : std_logic                                   := '0';
-  signal enable  : std_logic                                   := '0';
+  SIGNAL clk     : std_logic                                   := '0';
+  SIGNAL rst     : std_logic                                   := '0';
+  SIGNAL bit_in  : std_logic                                   := '0';
+  SIGNAL bus_out : std_logic_vector((DATA_WIDTH*2)-1 DOWNTO 0) := (OTHERS => '0');
+  SIGNAL flag    : std_logic                                   := '0';
+  SIGNAL bus_in  : std_logic_vector((DATA_WIDTH*2)-1 DOWNTO 0) := "00001111";
+  SIGNAL ready   : std_logic                                   := '0';
+  SIGNAL enable  : std_logic                                   := '0';
 
 
-begin
+BEGIN
 
-  SPI : entity work.SPI
-    generic map (
+  SPI : ENTITY work.SPI
+    GENERIC MAP (
       DATA_WIDTH => DATA_WIDTH
       )
-    port map (
+    PORT MAP (
       clk     => clk,
       rst     => rst,
       bit_in  => bit_in,
@@ -35,53 +35,53 @@ begin
 
 
 
-  clock_generator : process is
-  begin
-    wait for 10 ns;
-    clk <= not clk;
-  end process;
+  clock_generator : PROCESS IS
+  BEGIN
+    WAIT FOR 10 ns;
+    clk <= NOT clk;
+  END PROCESS;
 
 
-  reset : process is
-  begin
+  reset : PROCESS IS
+  BEGIN
     rst <= '1';
-    wait for 5 ns;
+    WAIT FOR 5 ns;
     rst <= '0';
-    wait;
-  end process;
+    WAIT;
+  END PROCESS;
 
 
-  get_ready : process is
-  begin
-    wait for 10 ns;
-    ready <= '1';
+  get_ready : PROCESS IS
+  BEGIN
+    WAIT FOR 10 ns;
+    ready  <= '1';
     enable <= '1';
-    wait for 50 ns;
+    WAIT FOR 50 ns;
     enable <= '0';
-    wait for 120 ns;
-    ready <= '0';
-    wait;
-  end process;
+    WAIT FOR 120 ns;
+    ready  <= '0';
+    WAIT;
+  END PROCESS;
 
 
 -- Times reference:
 -- (N bits * 20 ns) + 20 ns [flip flop delay] + 10 ns [first bit delay]
 -- 8 bits * 20 ns = 160 ns
 -- 160 ns + 20 ns + 10 ns = 190 ns for the entire transmission
-  create_input : process (clk, rst) is
-    variable index : integer := 0;
-  begin
-    if rst = '1' then
+  create_input : PROCESS (clk, rst) IS
+    VARIABLE index : integer := 0;
+  BEGIN
+    IF rst = '1' THEN
       index := 0;
-    elsif clk'event and clk = '1' then
+    ELSIF clk'event AND clk = '1' THEN
       bit_in <= bus_in(index);
       index  := index + 1;
-      if (index = DATA_WIDTH*2) then
+      IF (index = DATA_WIDTH*2) THEN
         index := 0;
         flag  <= '1';
-      end if;
-    end if;
-  end process;
+      END IF;
+    END IF;
+  END PROCESS;
 
 
-end test_SPI_arch;
+END test_SPI_arch;

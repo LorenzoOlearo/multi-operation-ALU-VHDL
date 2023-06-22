@@ -1,24 +1,24 @@
-library ieee;
+LIBRARY ieee;
 
-use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
 
-entity comparator is
-  generic(
+ENTITY comparator IS
+  GENERIC(
     DATA_WIDTH : integer := 4
     );
-  port(
-    a : in unsigned(DATA_WIDTH-1 downto 0);
-    b : in unsigned(DATA_WIDTH-1 downto 0);
-    result : out std_logic_vector(2 downto 0)
+  PORT(
+    a      : IN  unsigned(DATA_WIDTH-1 DOWNTO 0);
+    b      : IN  unsigned(DATA_WIDTH-1 DOWNTO 0);
+    result : OUT std_logic_vector(2 DOWNTO 0)
     );
-end comparator;
+END comparator;
 
-architecture comparator_arch of comparator is
-begin
+ARCHITECTURE comparator_arch OF comparator IS
+BEGIN
 
-  result(0) <= '1' when a < b else '0';
-  result(1) <= '1' when a = b else '0';
-  result(2) <= '1' when a > b else '0';
+  result(0) <= '1' WHEN a < b ELSE '0';
+  result(1) <= '1' WHEN a = b ELSE '0';
+  result(2) <= '1' WHEN a > b ELSE '0';
 
-end comparator_arch;
+END comparator_arch;

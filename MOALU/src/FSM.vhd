@@ -1,204 +1,204 @@
-library ieee;
+LIBRARY ieee;
 
-use ieee.std_logic_1164.all;
+USE ieee.std_logic_1164.ALL;
 
-entity FSM is
-  port(
-    clk        : in  std_logic;
-    rst        : in  std_logic;
-    enable     : in  std_logic;
-    ready      : in  std_logic;
-    op         : in  std_logic_vector(1 downto 0);
-    alu_enable : out std_logic;
-    alu_op     : out std_logic_vector(1 downto 0)
+ENTITY FSM IS
+  PORT(
+    clk        : IN  std_logic;
+    rst        : IN  std_logic;
+    enable     : IN  std_logic;
+    ready      : IN  std_logic;
+    op         : IN  std_logic_vector(1 DOWNTO 0);
+    alu_enable : OUT std_logic;
+    alu_op     : OUT std_logic_vector(1 DOWNTO 0)
     );
-end FSM;
+END FSM;
 
-architecture FSM_arch of FSM is
-  type state_type is (reset, mod1, mod2, mod3, hold1, hold2, hold3, err);
-  signal state      : state_type := reset;
-  signal next_state : state_type;
-  signal o          : std_logic_vector(2 downto 0);
-  signal i          : std_logic_vector(2 downto 0);
-begin
+ARCHITECTURE FSM_arch OF FSM IS
+  TYPE state_type IS (reset, mod1, mod2, mod3, hold1, hold2, hold3, err);
+  SIGNAL state      : state_type := reset;
+  SIGNAL next_state : state_type;
+  SIGNAL o          : std_logic_vector(2 DOWNTO 0);
+  SIGNAL i          : std_logic_vector(2 DOWNTO 0);
+BEGIN
 
   i          <= ready & op;
   alu_enable <= o(2);
-  alu_op     <= o(1 downto 0);
+  alu_op     <= o(1 DOWNTO 0);
 
   -- set state
-  process(clk, rst) is
-  begin
-    if rst = '1' then
+  PROCESS(clk, rst) IS
+  BEGIN
+    IF rst = '1' THEN
       state <= reset;
-    elsif (clk'event and clk = '1' and enable = '1') then
+    ELSIF (clk'event AND clk = '1' AND enable = '1') THEN
       state <= next_state;
-    end if;
-  end process;
+    END IF;
+  END PROCESS;
 
   -- next state function
-  process(i, state) is
-  begin
-    case state is
+  PROCESS(i, state) IS
+  BEGIN
+    CASE state IS
 
-      when reset =>
-        case i is
-          when "100" =>
+      WHEN reset =>
+        CASE i IS
+          WHEN "100" =>
             next_state <= mod1;
-          when "101" =>
+          WHEN "101" =>
             next_state <= mod2;
-          when "110" =>
+          WHEN "110" =>
             next_state <= mod3;
-          when "111" =>
+          WHEN "111" =>
             next_state <= err;
-          when others =>
+          WHEN OTHERS =>
             next_state <= reset;
-        end case;
+        END CASE;
 
-      when mod1 =>
-        case i is
-          when "000" =>
+      WHEN mod1 =>
+        CASE i IS
+          WHEN "000" =>
             next_state <= hold1;
-          when "001" =>
+          WHEN "001" =>
             next_state <= mod2;
-          when "010" =>
+          WHEN "010" =>
             next_state <= mod3;
-          when "100" =>
+          WHEN "100" =>
             next_state <= mod1;
-          when "101" =>
+          WHEN "101" =>
             next_state <= mod2;
-          when "110" =>
+          WHEN "110" =>
             next_state <= mod3;
-          when others =>
+          WHEN OTHERS =>
             next_state <= err;
-        end case;
+        END CASE;
 
-      when mod2 =>
-        case i is
-          when "000" =>
+      WHEN mod2 =>
+        CASE i IS
+          WHEN "000" =>
             next_state <= mod1;
-          when "001" =>
+          WHEN "001" =>
             next_state <= hold2;
-          when "010" =>
+          WHEN "010" =>
             next_state <= mod3;
-          when "100" =>
+          WHEN "100" =>
             next_state <= mod1;
-          when "101" =>
+          WHEN "101" =>
             next_state <= mod2;
-          when "110" =>
+          WHEN "110" =>
             next_state <= mod3;
-          when others =>
+          WHEN OTHERS =>
             next_state <= err;
-        end case;
+        END CASE;
 
-      when mod3 =>
-        case i is
-          when "000" =>
+      WHEN mod3 =>
+        CASE i IS
+          WHEN "000" =>
             next_state <= mod1;
-          when "001" =>
+          WHEN "001" =>
             next_state <= mod2;
-          when "010" =>
+          WHEN "010" =>
             next_state <= hold3;
-          when "100" =>
+          WHEN "100" =>
             next_state <= mod1;
-          when "101" =>
+          WHEN "101" =>
             next_state <= mod2;
-          when "110" =>
+          WHEN "110" =>
             next_state <= mod3;
-          when others =>
+          WHEN OTHERS =>
             next_state <= err;
-        end case;
+        END CASE;
 
-      when hold1 =>
-        case i is
-          when "000" =>
+      WHEN hold1 =>
+        CASE i IS
+          WHEN "000" =>
             next_state <= hold1;
-          when "001" =>
+          WHEN "001" =>
             next_state <= mod2;
-          when "010" =>
+          WHEN "010" =>
             next_state <= mod3;
-          when "100" =>
+          WHEN "100" =>
             next_state <= mod1;
-          when "101" =>
+          WHEN "101" =>
             next_state <= mod2;
-          when "110" =>
+          WHEN "110" =>
             next_state <= mod3;
-          when others =>
+          WHEN OTHERS =>
             next_state <= err;
-        end case;
+        END CASE;
 
-      when hold2 =>
-        case i is
-          when "000" =>
+      WHEN hold2 =>
+        CASE i IS
+          WHEN "000" =>
             next_state <= mod1;
-          when "001" =>
+          WHEN "001" =>
             next_state <= hold2;
-          when "010" =>
+          WHEN "010" =>
             next_state <= mod3;
-          when "100" =>
+          WHEN "100" =>
             next_state <= mod1;
-          when "101" =>
+          WHEN "101" =>
             next_state <= mod2;
-          when "110" =>
+          WHEN "110" =>
             next_state <= mod3;
-          when others =>
+          WHEN OTHERS =>
             next_state <= err;
-        end case;
+        END CASE;
 
-      when hold3 =>
-        case i is
-          when "000" =>
+      WHEN hold3 =>
+        CASE i IS
+          WHEN "000" =>
             next_state <= mod1;
-          when "001" =>
+          WHEN "001" =>
             next_state <= mod2;
-          when "010" =>
+          WHEN "010" =>
             next_state <= hold3;
-          when "100" =>
+          WHEN "100" =>
             next_state <= mod1;
-          when "101" =>
+          WHEN "101" =>
             next_state <= mod2;
-          when "110" =>
+          WHEN "110" =>
             next_state <= mod3;
-          when others =>
+          WHEN OTHERS =>
             next_state <= err;
-        end case;
+        END CASE;
 
-      when err =>
-        case i is
-          when "100" =>
+      WHEN err =>
+        CASE i IS
+          WHEN "100" =>
             next_state <= mod1;
-          when "101" =>
+          WHEN "101" =>
             next_state <= mod2;
-          when "110" =>
+          WHEN "110" =>
             next_state <= mod3;
-          when others =>
+          WHEN OTHERS =>
             next_state <= err;
-        end case;
+        END CASE;
 
-    end case;
-  end process;
+    END CASE;
+  END PROCESS;
 
   -- output function
-  process(state) is
-  begin
-    case state is
-      when reset =>
+  PROCESS(state) IS
+  BEGIN
+    CASE state IS
+      WHEN reset =>
         o <= "000";
-      when mod1 =>
+      WHEN mod1 =>
         o <= "100";
-      when mod2 =>
+      WHEN mod2 =>
         o <= "101";
-      when mod3 =>
+      WHEN mod3 =>
         o <= "110";
-      when hold1 =>
+      WHEN hold1 =>
         o <= "000";
-      when hold2 =>
+      WHEN hold2 =>
         o <= "001";
-      when hold3 =>
+      WHEN hold3 =>
         o <= "010";
-      when err =>
+      WHEN err =>
         o <= "011";
-    end case;
-  end process;
+    END CASE;
+  END PROCESS;
 
-end FSM_arch;
+END FSM_arch;

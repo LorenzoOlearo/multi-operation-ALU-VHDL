@@ -1,45 +1,45 @@
-library ieee;
-use ieee.std_logic_1164.all;
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
 
 
-entity reg_out is
-  generic(
+ENTITY reg_out IS
+  GENERIC(
     DATA_WIDTH : integer := 4
     );
 
-  port(
-    clk    : in std_logic;
-    rst    : in std_logic;
-    enable : in std_logic;
+  PORT(
+    clk    : IN std_logic;
+    rst    : IN std_logic;
+    enable : IN std_logic;
 
-    y1_in   : in std_logic_vector(DATA_WIDTH-1 downto 0);
-    y2_in   : in std_logic_vector(DATA_WIDTH-1 downto 0);
-    result_in : in std_logic_vector(2 downto 0);
+    y1_in     : IN std_logic_vector(DATA_WIDTH-1 DOWNTO 0);
+    y2_in     : IN std_logic_vector(DATA_WIDTH-1 DOWNTO 0);
+    result_in : IN std_logic_vector(2 DOWNTO 0);
 
-    y1_out   : out std_logic_vector(DATA_WIDTH-1 downto 0);
-    y2_out   : out std_logic_vector(DATA_WIDTH-1 downto 0);
-    result_out : out std_logic_vector(2 downto 0)
+    y1_out     : OUT std_logic_vector(DATA_WIDTH-1 DOWNTO 0);
+    y2_out     : OUT std_logic_vector(DATA_WIDTH-1 DOWNTO 0);
+    result_out : OUT std_logic_vector(2 DOWNTO 0)
     );
-end entity reg_out;
+END ENTITY reg_out;
 
 
-architecture reg_out_arch of reg_out is
+ARCHITECTURE reg_out_arch OF reg_out IS
 
-begin
+BEGIN
 
-  process(clk, rst) is
-  begin
-    if rst = '1' then
-      y1_out   <= (others => '0');
-      y2_out   <= (others => '0');
-      result_out <= (others => '0');
-    elsif clk'event and clk = '1' then
-      if enable = '1' then
-        y1_out   <= y1_in;
-        y2_out   <= y2_in;
+  PROCESS(clk, rst) IS
+  BEGIN
+    IF rst = '1' THEN
+      y1_out     <= (OTHERS => '0');
+      y2_out     <= (OTHERS => '0');
+      result_out <= (OTHERS => '0');
+    ELSIF clk'event AND clk = '1' THEN
+      IF enable = '1' THEN
+        y1_out     <= y1_in;
+        y2_out     <= y2_in;
         result_out <= result_in;
-      end if;
-    end if;
-  end process;
+      END IF;
+    END IF;
+  END PROCESS;
 
-end architecture reg_out_arch;
+END ARCHITECTURE reg_out_arch;

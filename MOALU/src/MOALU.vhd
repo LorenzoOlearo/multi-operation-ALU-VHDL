@@ -1,52 +1,52 @@
-library ieee;
-use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
 
 
-entity MOALU is
-  generic(
+ENTITY MOALU IS
+  GENERIC(
     DATA_WIDTH : integer := 4
     );
 
-  port(
-    clk    : in  std_logic;
-    rst    : in  std_logic;
-    enable : in  std_logic;
-    bit_in : in  std_logic;
-    ready  : in  std_logic;
-    op     : in  std_logic_vector(1 downto 0);
-    y1     : out std_logic_vector((DATA_WIDTH - 1) downto 0);
-    y2     : out std_logic_vector((DATA_WIDTH - 1) downto 0);
-    result : out std_logic_vector(2 downto 0)
+  PORT(
+    clk    : IN  std_logic;
+    rst    : IN  std_logic;
+    enable : IN  std_logic;
+    bit_in : IN  std_logic;
+    ready  : IN  std_logic;
+    op     : IN  std_logic_vector(1 DOWNTO 0);
+    y1     : OUT std_logic_vector((DATA_WIDTH - 1) DOWNTO 0);
+    y2     : OUT std_logic_vector((DATA_WIDTH - 1) DOWNTO 0);
+    result : OUT std_logic_vector(2 DOWNTO 0)
     );
-end entity MOALU;
+END ENTITY MOALU;
 
 
-architecture MOALU_arch of MOALU is
+ARCHITECTURE MOALU_arch OF MOALU IS
 
-  signal spi_bus_out : std_logic_vector((DATA_WIDTH*2)-1 downto 0) := (others => '0');
-  signal alu_enable  : std_logic;
-  signal alu_op      : std_logic_vector(1 downto 0);
-  signal alu_x1      : unsigned(DATA_WIDTH-1 downto 0)                      := (others => '0');
-  signal alu_x2      : unsigned(DATA_WIDTH-1 downto 0)                      := (others => '0');
-  signal alu_y1      : unsigned(DATA_WIDTH-1 downto 0);
-  signal alu_y2      : unsigned(DATA_WIDTH-1 downto 0);
-  signal alu_result  : std_logic_vector(2 downto 0);
+  SIGNAL spi_bus_out : std_logic_vector((DATA_WIDTH*2)-1 DOWNTO 0) := (OTHERS => '0');
+  SIGNAL alu_enable  : std_logic;
+  SIGNAL alu_op      : std_logic_vector(1 DOWNTO 0);
+  SIGNAL alu_x1      : unsigned(DATA_WIDTH-1 DOWNTO 0)             := (OTHERS => '0');
+  SIGNAL alu_x2      : unsigned(DATA_WIDTH-1 DOWNTO 0)             := (OTHERS => '0');
+  SIGNAL alu_y1      : unsigned(DATA_WIDTH-1 DOWNTO 0);
+  SIGNAL alu_y2      : unsigned(DATA_WIDTH-1 DOWNTO 0);
+  SIGNAL alu_result  : std_logic_vector(2 DOWNTO 0);
 
-  signal alu_master_enable : std_logic;
+  SIGNAL alu_master_enable : std_logic;
 
-begin
+BEGIN
 
-  alu_x1 <= unsigned(spi_bus_out(DATA_WIDTH-1 downto 0));
-  alu_x2 <= unsigned(spi_bus_out((DATA_WIDTH*2)-1 downto DATA_WIDTH));
+  alu_x1 <= unsigned(spi_bus_out(DATA_WIDTH-1 DOWNTO 0));
+  alu_x2 <= unsigned(spi_bus_out((DATA_WIDTH*2)-1 DOWNTO DATA_WIDTH));
 
-  alu_master_enable <= alu_enable and enable;
+  alu_master_enable <= alu_enable AND enable;
 
-  SPI : entity work.SPI
-    generic map (
+  SPI : ENTITY work.SPI
+    GENERIC MAP (
       DATA_WIDTH => DATA_WIDTH
       )
-    port map (
+    PORT MAP (
       clk     => clk,
       rst     => rst,
       bit_in  => bit_in,
@@ -56,8 +56,8 @@ begin
       );
 
 
-  FSM : entity work.FSM
-    port map(
+  FSM : ENTITY work.FSM
+    PORT MAP(
       clk        => clk,
       rst        => rst,
       enable     => enable,
@@ -68,11 +68,11 @@ begin
       );
 
 
-  ALU : entity work.ALU
-    generic map (
+  ALU : ENTITY work.ALU
+    GENERIC MAP (
       DATA_WIDTH => DATA_WIDTH
       )
-    port map (
+    PORT MAP (
       enable => alu_master_enable,
       op     => alu_op,
       x1     => alu_x1,
@@ -82,20 +82,20 @@ begin
       result => alu_result
       );
 
-  reg_out : entity work.reg_out
-    generic map (
+  reg_out : ENTITY work.reg_out
+    GENERIC MAP (
       DATA_WIDTH => DATA_WIDTH
       )
-    port map (
-      clk       => clk,
-      rst       => rst,
-      enable    => alu_enable,
-      y1_in     => std_logic_vector(alu_y1),
-      y2_in     => std_logic_vector(alu_y2),
-      result_in => alu_result,
-      y1_out    => y1,
-      y2_out    => y2,
-      result_out  => result
+    PORT MAP (
+      clk        => clk,
+      rst        => rst,
+      enable     => alu_enable,
+      y1_in      => std_logic_vector(alu_y1),
+      y2_in      => std_logic_vector(alu_y2),
+      result_in  => alu_result,
+      y1_out     => y1,
+      y2_out     => y2,
+      result_out => result
       );
 
-end architecture MOALU_arch;
+END ARCHITECTURE MOALU_arch;

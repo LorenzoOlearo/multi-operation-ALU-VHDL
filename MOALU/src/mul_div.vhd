@@ -1,29 +1,29 @@
-library ieee;
+LIBRARY ieee;
 
-use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
 
-entity mul_div is
-  generic(
+ENTITY mul_div IS
+  GENERIC(
     DATA_WIDTH : integer := 4
     );
-  port(
-    enable : in std_logic;
-    op : in std_logic;
-    x : in unsigned(DATA_WIDTH-1 downto 0);
-    y : out unsigned(DATA_WIDTH-1 downto 0);
-    overflow : out std_logic
+  PORT(
+    enable   : IN  std_logic;
+    op       : IN  std_logic;
+    x        : IN  unsigned(DATA_WIDTH-1 DOWNTO 0);
+    y        : OUT unsigned(DATA_WIDTH-1 DOWNTO 0);
+    overflow : OUT std_logic
     );
-end mul_div;
+END twoDivMul;
 
-architecture mul_div_arch of mul_div is
-begin
+ARCHITECTURE mul_div_arch OF mul_div IS
+BEGIN
 
-  overflow <= x(x'high) when op = '0' and enable = '1' else
-              x(0)      when op = '1' and enable = '1' else
+  overflow <= x(x'high) WHEN op = '0' AND enable = '1' ELSE
+              x(0) WHEN op = '1' AND enable = '1' ELSE
               '0';
-  y <= shift_left(x, 1)  when op = '0' and enable = '1' else
-       shift_right(x, 1) when op = '1' and enable = '1' else
-       (others => '0');
+  y <= shift_left(x, 1) WHEN op = '0' AND enable = '1' ELSE
+       shift_right(x, 1) WHEN op = '1' AND enable = '1' ELSE
+       (OTHERS => '0');
 
-end mul_div_arch;
+END mul_div_arch;
