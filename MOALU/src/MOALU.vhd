@@ -51,6 +51,7 @@ begin
       rst     => rst,
       bit_in  => bit_in,
       ready   => ready,
+      enable  => enable,
       bus_out => spi_bus_out
       );
 

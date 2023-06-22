@@ -15,6 +15,7 @@ architecture test_SPI_arch of test is
   signal flag    : std_logic                                   := '0';
   signal bus_in  : std_logic_vector((DATA_WIDTH*2)-1 downto 0) := "00001111";
   signal ready   : std_logic                                   := '0';
+  signal enable  : std_logic                                   := '0';
 
 
 begin
@@ -28,6 +29,7 @@ begin
       rst     => rst,
       bit_in  => bit_in,
       ready   => ready,
+      enable  => enable,
       bus_out => bus_out
       );
 
@@ -53,7 +55,10 @@ begin
   begin
     wait for 10 ns;
     ready <= '1';
-    wait for 170 ns;
+    enable <= '1';
+    wait for 50 ns;
+    enable <= '0';
+    wait for 120 ns;
     ready <= '0';
     wait;
   end process;
