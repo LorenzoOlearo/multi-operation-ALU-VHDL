@@ -38,7 +38,8 @@ begin
   end process;
 
 
-  bus_out <= shift_register when ready = '1' else (others => '0');
+  bus_out <= shift_register when ready = '1' and rst = '0' else 
+            (others => '0') when rst = '1';
 
 
 end SPI_arch;
