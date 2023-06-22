@@ -1,5 +1,4 @@
 LIBRARY ieee;
-
 USE ieee.std_logic_1164.ALL;
 
 
@@ -12,7 +11,7 @@ ARCHITECTURE MOALU_test_arch OF MOALU_test IS
   CONSTANT X2         : std_logic_vector(DATA_WIDTH-1 DOWNTO 0) := "1100";
 
   SIGNAL clk    : std_logic;
-  SIGNAL rst    : std_logic                    := '0';
+  SIGNAL rst    : std_logic                    := '1';
   SIGNAL enable : std_logic                    := '1';
   SIGNAL bit_in : std_logic;
   SIGNAL ready  : std_logic                    := '0';
@@ -55,7 +54,7 @@ BEGIN
   BEGIN
     IF clk'event AND clk = '1' THEN
       IF index = 0 THEN
-        rst <= '0';
+        rst <= '1';
       END IF;
       IF (index < DATA_WIDTH*2) THEN
         bit_in <= bus_in(index);
@@ -68,7 +67,7 @@ BEGIN
         ready <= '0';
       END IF;
       IF (index = DATA_WIDTH*2 + 5) THEN
-        rst   <= '1';
+        rst   <= '0';
         index := 0;
         CASE op IS
           WHEN "00"   => op <= "01";

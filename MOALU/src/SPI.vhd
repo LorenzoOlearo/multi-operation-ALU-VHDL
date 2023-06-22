@@ -26,8 +26,8 @@ BEGIN
 
   shifter : PROCESS (clk, rst) IS
   BEGIN
-    IF (rst = '1') THEN
-      shift_register <= (OTHERS => '0');
+    IF (rst = '0') THEN
+      shift_register <= (OTHERS => '1');
     ELSIF clk'event AND clk = '1' THEN
       IF enable = '1' THEN
         shift_register <= bit_in & shift_register(shift_register'high DOWNTO 1);
@@ -36,8 +36,8 @@ BEGIN
   END PROCESS;
 
 
-  bus_out <= shift_register WHEN ready = '1' AND rst = '0' ELSE
-             (OTHERS => '0') WHEN rst = '1';
+  bus_out <= shift_register WHEN ready = '1' AND rst = '1' ELSE
+             (OTHERS => '1') WHEN rst = '0';
 
 
 END SPI_arch;

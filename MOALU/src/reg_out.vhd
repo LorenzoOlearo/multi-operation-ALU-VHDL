@@ -29,7 +29,7 @@ BEGIN
 
   PROCESS(clk, rst) IS
   BEGIN
-    IF rst = '1' THEN
+    IF rst = '0' THEN
       y1_out     <= (OTHERS => '0');
       y2_out     <= (OTHERS => '0');
       result_out <= (OTHERS => '0');

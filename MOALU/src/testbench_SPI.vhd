@@ -9,7 +9,7 @@ ARCHITECTURE test_SPI_arch OF test IS
   CONSTANT DATA_WIDTH : integer := 4;
 
   SIGNAL clk     : std_logic                                   := '0';
-  SIGNAL rst     : std_logic                                   := '0';
+  SIGNAL rst     : std_logic                                   := '1';
   SIGNAL bit_in  : std_logic                                   := '0';
   SIGNAL bus_out : std_logic_vector((DATA_WIDTH*2)-1 DOWNTO 0) := (OTHERS => '0');
   SIGNAL flag    : std_logic                                   := '0';
@@ -44,9 +44,9 @@ BEGIN
 
   reset : PROCESS IS
   BEGIN
-    rst <= '1';
-    WAIT FOR 5 ns;
     rst <= '0';
+    WAIT FOR 5 ns;
+    rst <= '1';
     WAIT;
   END PROCESS;
 
@@ -71,7 +71,7 @@ BEGIN
   create_input : PROCESS (clk, rst) IS
     VARIABLE index : integer := 0;
   BEGIN
-    IF rst = '1' THEN
+    IF rst = '0' THEN
       index := 0;
     ELSIF clk'event AND clk = '1' THEN
       bit_in <= bus_in(index);

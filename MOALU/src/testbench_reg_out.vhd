@@ -9,7 +9,7 @@ ARCHITECTURE test_reg_out_arch OF test_reg_out IS
   CONSTANT DATA_WIDTH : integer := 4;
 
   SIGNAL clk    : std_logic := '0';
-  SIGNAL rst    : std_logic := '0';
+  SIGNAL rst    : std_logic := '1';
   SIGNAL enable : std_logic := '0';
 
   SIGNAL y1_in     : std_logic_vector(DATA_WIDTH - 1 DOWNTO 0) := "0000";
@@ -49,17 +49,17 @@ BEGIN
   test_case : PROCESS IS
   BEGIN
     WAIT FOR 2 ns;
-    rst       <= '1';
-    WAIT FOR 2 ns;
     rst       <= '0';
+    WAIT FOR 2 ns;
+    rst       <= '1';
     enable    <= '1';
     y1_in     <= "1010";
     y2_in     <= "0101";
     result_in <= "001";
     WAIT FOR 50 ns;
-    rst       <= '1';                   -- test reset
+    rst       <= '0';                   -- test reset
     WAIT FOR 2 ns;
-    rst       <= '0';
+    rst       <= '1';
     y1_in     <= "1010";
     y2_in     <= "0101";
     result_in <= "001";

@@ -7,7 +7,7 @@ END test_FSM;
 
 ARCHITECTURE test_FSM_arch OF test_FSM IS
   SIGNAL clk        : std_logic                    := '0';
-  SIGNAL rst        : std_logic                    := '0';
+  SIGNAL rst        : std_logic                    := '1';
   SIGNAL enable     : std_logic                    := '1';
   SIGNAL fsm_input  : std_logic_vector(2 DOWNTO 0) := "000";
   SIGNAL fsm_output : std_logic_vector(2 DOWNTO 0);

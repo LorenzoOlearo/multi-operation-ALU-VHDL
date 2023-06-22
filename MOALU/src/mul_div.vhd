@@ -14,7 +14,7 @@ ENTITY mul_div IS
     y        : OUT unsigned(DATA_WIDTH-1 DOWNTO 0);
     overflow : OUT std_logic
     );
-END twoDivMul;
+END mul_div;
 
 ARCHITECTURE mul_div_arch OF mul_div IS
 BEGIN

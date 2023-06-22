@@ -29,7 +29,7 @@ BEGIN
   -- set state
   PROCESS(clk, rst) IS
   BEGIN
-    IF rst = '1' THEN
+    IF rst = '0' THEN
       state <= reset;
     ELSIF (clk'event AND clk = '1' AND enable = '1') THEN
       state <= next_state;
