@@ -89,7 +89,7 @@ BEGIN
     PORT MAP (
       clk        => clk,
       rst        => rst,
-      enable     => alu_enable,
+      enable     => alu_master_enable,
       y1_in      => std_logic_vector(alu_y1),
       y2_in      => std_logic_vector(alu_y2),
       result_in  => alu_result,
