@@ -36,7 +36,7 @@ BEGIN
   END PROCESS;
 
 
-  bus_out <= shift_register WHEN ready = '1' AND rst = '1' ELSE
+  bus_out <= shift_register WHEN ready = '1' AND rst = '1' AND clk'event AND clk ='1' ELSE
              (OTHERS => '1') WHEN rst = '0';
 
 
