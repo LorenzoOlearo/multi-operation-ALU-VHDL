@@ -15,7 +15,7 @@ ENTITY FSM IS
 END FSM;
 
 ARCHITECTURE FSM_arch OF FSM IS
-  TYPE state_type IS (reset, mod1, mod2, mod3, hold1, hold2, hold3, err);
+  TYPE state_type IS (reset, mul, div, com, mul_h, div_h, com_h, err);
   SIGNAL state      : state_type := reset;
   SIGNAL next_state : state_type;
   SIGNAL o          : std_logic_vector(2 DOWNTO 0);
@@ -44,121 +44,121 @@ BEGIN
       WHEN reset =>
         CASE i IS
           WHEN "100" =>
-            next_state <= mod1;
+            next_state <= mul;
           WHEN "101" =>
-            next_state <= mod2;
+            next_state <= div;
           WHEN "110" =>
-            next_state <= mod3;
+            next_state <= com;
           WHEN "111" =>
             next_state <= err;
           WHEN OTHERS =>
             next_state <= reset;
         END CASE;
 
-      WHEN mod1 =>
+      WHEN mul =>
         CASE i IS
           WHEN "000" =>
-            next_state <= hold1;
+            next_state <= mul_h;
           WHEN "001" =>
-            next_state <= mod2;
+            next_state <= div;
           WHEN "010" =>
-            next_state <= mod3;
+            next_state <= com;
           WHEN "100" =>
-            next_state <= mod1;
+            next_state <= mul;
           WHEN "101" =>
-            next_state <= mod2;
+            next_state <= div;
           WHEN "110" =>
-            next_state <= mod3;
+            next_state <= com;
           WHEN OTHERS =>
             next_state <= err;
         END CASE;
 
-      WHEN mod2 =>
+      WHEN div =>
         CASE i IS
           WHEN "000" =>
-            next_state <= mod1;
+            next_state <= mul;
           WHEN "001" =>
-            next_state <= hold2;
+            next_state <= div_h;
           WHEN "010" =>
-            next_state <= mod3;
+            next_state <= com;
           WHEN "100" =>
-            next_state <= mod1;
+            next_state <= mul;
           WHEN "101" =>
-            next_state <= mod2;
+            next_state <= div;
           WHEN "110" =>
-            next_state <= mod3;
+            next_state <= com;
           WHEN OTHERS =>
             next_state <= err;
         END CASE;
 
-      WHEN mod3 =>
+      WHEN com =>
         CASE i IS
           WHEN "000" =>
-            next_state <= mod1;
+            next_state <= mul;
           WHEN "001" =>
-            next_state <= mod2;
+            next_state <= div;
           WHEN "010" =>
-            next_state <= hold3;
+            next_state <= com_h;
           WHEN "100" =>
-            next_state <= mod1;
+            next_state <= mul;
           WHEN "101" =>
-            next_state <= mod2;
+            next_state <= div;
           WHEN "110" =>
-            next_state <= mod3;
+            next_state <= com;
           WHEN OTHERS =>
             next_state <= err;
         END CASE;
 
-      WHEN hold1 =>
+      WHEN mul_h =>
         CASE i IS
           WHEN "000" =>
-            next_state <= hold1;
+            next_state <= mul_h;
           WHEN "001" =>
-            next_state <= mod2;
+            next_state <= div;
           WHEN "010" =>
-            next_state <= mod3;
+            next_state <= com;
           WHEN "100" =>
-            next_state <= mod1;
+            next_state <= mul;
           WHEN "101" =>
-            next_state <= mod2;
+            next_state <= div;
           WHEN "110" =>
-            next_state <= mod3;
+            next_state <= com;
           WHEN OTHERS =>
             next_state <= err;
         END CASE;
 
-      WHEN hold2 =>
+      WHEN div_h =>
         CASE i IS
           WHEN "000" =>
-            next_state <= mod1;
+            next_state <= mul;
           WHEN "001" =>
-            next_state <= hold2;
+            next_state <= div_h;
           WHEN "010" =>
-            next_state <= mod3;
+            next_state <= com;
           WHEN "100" =>
-            next_state <= mod1;
+            next_state <= mul;
           WHEN "101" =>
-            next_state <= mod2;
+            next_state <= div;
           WHEN "110" =>
-            next_state <= mod3;
+            next_state <= com;
           WHEN OTHERS =>
             next_state <= err;
         END CASE;
 
-      WHEN hold3 =>
+      WHEN com_h =>
         CASE i IS
           WHEN "000" =>
-            next_state <= mod1;
+            next_state <= mul;
           WHEN "001" =>
-            next_state <= mod2;
+            next_state <= div;
           WHEN "010" =>
-            next_state <= hold3;
+            next_state <= com_h;
           WHEN "100" =>
-            next_state <= mod1;
+            next_state <= mul;
           WHEN "101" =>
-            next_state <= mod2;
+            next_state <= div;
           WHEN "110" =>
-            next_state <= mod3;
+            next_state <= com;
           WHEN OTHERS =>
             next_state <= err;
         END CASE;
@@ -166,11 +166,11 @@ BEGIN
       WHEN err =>
         CASE i IS
           WHEN "100" =>
-            next_state <= mod1;
+            next_state <= mul;
           WHEN "101" =>
-            next_state <= mod2;
+            next_state <= div;
           WHEN "110" =>
-            next_state <= mod3;
+            next_state <= com;
           WHEN OTHERS =>
             next_state <= err;
         END CASE;
@@ -184,17 +184,17 @@ BEGIN
     CASE state IS
       WHEN reset =>
         o <= "000";
-      WHEN mod1 =>
+      WHEN mul =>
         o <= "100";
-      WHEN mod2 =>
+      WHEN div =>
         o <= "101";
-      WHEN mod3 =>
+      WHEN com =>
         o <= "110";
-      WHEN hold1 =>
+      WHEN mul_h =>
         o <= "000";
-      WHEN hold2 =>
+      WHEN div_h =>
         o <= "001";
-      WHEN hold3 =>
+      WHEN com_h =>
         o <= "010";
       WHEN err =>
         o <= "011";

@@ -4,7 +4,7 @@ USE ieee.std_logic_1164.ALL;
 ENTITY test_SPI IS
 END test_SPI;
 
-ARCHITECTURE test_SPI_arch OF test IS
+ARCHITECTURE test_SPI_arch OF test_SPI IS
 
   CONSTANT DATA_WIDTH : integer := 4;
 
