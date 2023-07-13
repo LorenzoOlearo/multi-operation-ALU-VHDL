@@ -9,3 +9,4 @@
 .\src\comparator.vhd
 .\src\mul_div.vhd
 .\src\MOALU.vhd
+.\src\testbench_MOALU.vhd
